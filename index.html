@@ -26,6 +26,18 @@
         document.addEventListener("deviceready", function () {
             document.getElementById('openInAppBrowser').addEventListener('click', function () {
                 var ref = cordova.InAppBrowser.open('https://demo-mgp.mobzway.com/', '_blank', 'location=no');
+
+                ref.addEventListener('loadstop', function () {
+                    // Execute script in the iframe to check for the class
+                    ref.executeScript({
+                        code: `
+                            var elements = document.querySelectorAll('.row.top-buttons.nopadding');
+                            elements.forEach(function(element) {
+                                element.style.backgroundColor = 'red'; // Change background to red
+                            });
+                        `
+                    });
+                });
             });
         }, false);
     </script>
